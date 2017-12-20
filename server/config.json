@@ -1,0 +1,7 @@
+{
+    "BASE_API_URL": "/api",
+    "mongodb": {
+      "database": "mongodb://adminuser:admin123@ds046037.mlab.com:46037/koi"
+    }
+  }
+  
