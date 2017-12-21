@@ -4,7 +4,7 @@
 
     kService.$inject = ['$q', '$http'];
 
-    function kService($q, $http, appConfigs) {
+    function kService($q, $http) {
         var apiUrl = 'https://hakoi.herokuapp.com/api/koi';
         return {
             createKoi: createKoi,

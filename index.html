@@ -1,16 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HaKoi</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="./client/app.js"></script>    
-    <script src="./client/service.js"></script>    
-    <script src="./client/controller.js"></script>    
+    <script src="./client/app.js"></script>
+    <script src="./client/service.js"></script>
+    <script src="./client/controller.js"></script>
+    <link rel="stylesheet" href="./client/style.css">
 </head>
+
 <body ng-app="k" ng-controller="kController">
-    
+
+    <div class="header-search">
+        <input class="form-control" type="text" ng-model="search" placeholder="Search...">
+        <button class="btn btn-default" ng-click="search = ''"><i>&times;</i></button>
+    </div>
+    <div class="main">
+        <div class="container-fluid">
+            <h2>Sell</h2>
+            <div class="row">
+                <div class="each-order sell col-lg-4 col-md-6 col-sm-1">
+                    <div class="name">Name |
+                        <span class="buy-sell-price">0.00011100</span> -
+                        <span class="current-price">0.00011100</span>
+                        <span class="current-rate">(5%)</span>
+                    </div>
+                    <div class="row">
+                        <div class="qt col-12 pull-left">Qt: <span>100</span></div>
+                        <div class="current-order col-12 pull-left">Current Order: <span class="order-price">0.00011100</span> at <span class="order-rate">5%</span></div>
+                        <div class="at-5 col-6 pull-left">5%: <span>0.00011100</span></div>
+                        <div class="at-6 col-6 pull-right">6%: <span>0.00011100</span></div>
+                        <div class="at-7 col-6 pull-left">7%: <span>0.00011100</span></div>
+                        <div class="at-8 col-6 pull-right">8%: <span>0.00011100</span></div>
+                        <div class="at-9 col-6 pull-left">9%: <span>0.00011100</span></div>
+                        <div class="at-10 col-6 pull-right">10%: <span>0.00011100</span></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+            <h2>Buy</h2>
+            <div class="row">
+                <div class="each-order buy col-lg-4 col-md-6 col-sm-1">
+                    <div class="name">Name |
+                        <span class="buy-sell-price">0.00011100</span> -
+                        <span class="current-price">0.00011100</span>
+                        <span class="current-rate">(5%)</span>
+                    </div>
+                    <div class="row">
+                        <div class="qt col-12 pull-left">Qt: <span>100</span></div>
+                        <div class="current-order col-12 pull-left">Current Order: <span class="order-price">0.00011100</span> at <span class="order-rate">5%</span></div>
+                        <div class="at-5 col-6 pull-left">5%: <span>0.00011100</span></div>
+                        <div class="at-6 col-6 pull-right">6%: <span>0.00011100</span></div>
+                        <div class="at-7 col-6 pull-left">7%: <span>0.00011100</span></div>
+                        <div class="at-8 col-6 pull-right">8%: <span>0.00011100</span></div>
+                        <div class="at-9 col-6 pull-left">9%: <span>0.00011100</span></div>
+                        <div class="at-10 col-6 pull-right">10%: <span>0.00011100</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="k-footer">
+        <div ng-click="activeTab = 'open'" ng-class="{active: activeTab == 'open'}" class="open-orders">
+            Open Orders
+        </div>
+        <div ng-click="activeTab = 'history'" ng-class="{active: activeTab == 'history'}" class="history">
+            History
+        </div>
+        <div ng-click="activeTab = 'all'" ng-class="{active: activeTab == 'all'}" class="all">
+            All
+        </div>
+        <div class="add" ng-click="openCreate()">
+            +
+        </div>
+
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create/Update Koi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">Type</label>
+                            <label class="form-check-label" style="margin-right: 10px">
+                                <input class="form-check-input" type="radio" name="type" ng-model="currentKoi.type" value="1">
+                                Buy
+                            </label>
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" ng-model="currentKoi.type" name="type" value="2">
+                                Sell
+                            </label>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Symbol</label>
+                            <div class="col-4">
+                                <input ng-model="currentKoi.symbol" type="number" class="form-control" placeholder="Symbol...">
+                            </div>
+                            <label class="col-2 col-form-label">Qt</label>
+                            <div class="col-4">
+                                <input ng-model="currentKoi.quantity" type="number" class="form-control" placeholder="Quantity...">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">CO</label>
+                            <div class="col-7">
+                                <input ng-model="currentKoi.currentOrderPrice" type="number" class="form-control" placeholder="Current Order Price...">
+                            </div>
+                            <label ng-if="currentKoi.type == '2'" class="col-3 col-form-label">at <b>5%</b></label>
+                        </div>
+                        <div ng-if="currentKoi.type == '2'" class="form-group row">
+                            <label class="col-2 col-form-label">PB</label>
+                            <div class="col-10">
+                                <input ng-model="currentKoi.priceBuy" type="number" class="form-control" placeholder="Price buy...">
+                            </div>
+                        </div>
+                        <div ng-if="currentKoi.type == '2'" class="form-group row">
+                            <label class="col-2 col-form-label">PS</label>
+                            <div class="col-10">
+                                <input ng-model="currentKoi.priceSold" type="number" class="form-control" placeholder="Price Sold...">
+                            </div>
+                        </div>
+                        <hr>
+                        <h6>Rate/Price at</h6>
+                        <div class="form-group row">
+                            <label class="col-6 col-form-label"><b>5%</b> at <b>0.00110011</b></label>
+                            <label class="col-6 col-form-label"><b>6%</b> at <b>0.00110011</b></label>
+                            <label class="col-6 col-form-label"><b>7%</b> at <b>0.00110011</b></label>
+                            <label class="col-6 col-form-label"><b>8%</b> at <b>0.00110011</b></label>
+                            <label class="col-6 col-form-label"><b>9%</b> at <b>0.00110011</b></label>
+                            <label class="col-6 col-form-label"><b>10%</b> at <b>0.00110011</b></label>
+                        </div>
+
+                        <hr>
+                        <h6>Calculate</h6>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Price</label>
+                            <div class="col-5">
+                                <input type="number" class="form-control" placeholder="Price...">
+                            </div>
+                            <label class="col-5 col-form-label">at <b>5%</b></label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Rate</label>
+                            <div class="col-5">
+                                <input type="number" class="form-control" placeholder="Price...">
+                            </div>
+                            <label class="col-5 col-form-label">at <b>0.00110011</b></label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="display: block">
+                    <button type="button" class="btn btn-danger float-left" ng-click="delete()"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="btn btn-success float-left"  ng-click="done()">Done</button>
+                    <button type="button" class="btn btn-secondary float-right"  ng-click="closeModal()">Close</button>
+                    <button type="button" class="btn btn-primary float-right"  ng-click="save()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

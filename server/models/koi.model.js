@@ -4,9 +4,6 @@ var config = require('./../config');
 var Schema = mongoose.Schema;
 
 var koiSchema = new Schema({
-    name: {
-        type: String
-    },
     symbol: {
         type: String
     },
