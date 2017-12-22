@@ -80,14 +80,11 @@
 
 
     <div class="k-footer">
-        <div ng-click="activeTab = 'open'" ng-class="{active: activeTab == 'open'}" class="open-orders">
+        <div ng-click="activeTab = 'open'; getAllKoi('open')" ng-class="{active: activeTab == 'open'}" class="open-orders">
             Open Orders
         </div>
-        <div ng-click="activeTab = 'history'" ng-class="{active: activeTab == 'history'}" class="history">
+        <div ng-click="activeTab = 'history'; getAllKoi()" ng-class="{active: activeTab == 'history'}" class="history">
             History
-        </div>
-        <div ng-click="activeTab = 'all'" ng-class="{active: activeTab == 'all'}" class="all">
-            All
         </div>
         <div class="add" ng-click="openCreate()">
             +
@@ -124,7 +121,7 @@
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Symbol</label>
                             <div class="col-4">
-                                <input ng-model="currentKoi.symbol" type="number" class="form-control" placeholder="Symbol...">
+                                <input ng-model="currentKoi.symbol" type="text" class="form-control" placeholder="Symbol...">
                             </div>
                             <label class="col-2 col-form-label">Qt</label>
                             <div class="col-4">
@@ -151,8 +148,8 @@
                             </div>
                         </div>
                         <hr>
-                        <h6>Rate/Price at</h6>
-                        <div class="form-group row">
+                        <h6 ng-if="currentKoi.type == '2'" >Rate/Price at</h6>
+                        <div ng-if="currentKoi.type == '2'" class="form-group row">
                             <label class="col-6 col-form-label"><b>5%</b> at <b>0.00110011</b></label>
                             <label class="col-6 col-form-label"><b>6%</b> at <b>0.00110011</b></label>
                             <label class="col-6 col-form-label"><b>7%</b> at <b>0.00110011</b></label>
@@ -162,15 +159,15 @@
                         </div>
 
                         <hr>
-                        <h6>Calculate</h6>
-                        <div class="form-group row">
+                        <h6 ng-if="currentKoi.type == '2'" >Calculate</h6>
+                        <div ng-if="currentKoi.type == '2'"  class="form-group row">
                             <label class="col-2 col-form-label">Price</label>
                             <div class="col-5">
                                 <input type="number" class="form-control" placeholder="Price...">
                             </div>
                             <label class="col-5 col-form-label">at <b>5%</b></label>
                         </div>
-                        <div class="form-group row">
+                        <div ng-if="currentKoi.type == '2'" class="form-group row">
                             <label class="col-2 col-form-label">Rate</label>
                             <div class="col-5">
                                 <input type="number" class="form-control" placeholder="Price...">
@@ -180,7 +177,7 @@
                     </form>
                 </div>
                 <div class="modal-footer" style="display: block">
-                    <button type="button" class="btn btn-danger float-left" ng-click="delete()"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="btn btn-danger float-left" ng-click="deleteKoi()"><span aria-hidden="true">&times;</span></button>
                     <button type="button" class="btn btn-success float-left"  ng-click="done()">Done</button>
                     <button type="button" class="btn btn-secondary float-right"  ng-click="closeModal()">Close</button>
                     <button type="button" class="btn btn-primary float-right"  ng-click="save()">Save</button>

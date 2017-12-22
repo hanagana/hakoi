@@ -8,9 +8,13 @@ module.exports = {
     deleteKoi: deleteKoi
 }
 
-function getAllKoi() {
+function getAllKoi(q) {
+    var query = {};
+    query.isOpen = q.open == 1 ? 1 : 0;
+    console.log(query);
+    
     return new Promise((resolve, reject) => {
-        Koi.find({}).exec(function (err, kois) {
+        Koi.find(query).exec(function (err, kois) {
             if (err) {
                 reject(err);
             } else {

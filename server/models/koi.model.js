@@ -19,12 +19,6 @@ var koiSchema = new Schema({
     currentOrderPrice: {
         type: Number
     },
-    boughtDate: {
-        type: Date
-    },
-    soldDate: {
-        type: Date
-    },
     type: {
         type: Number//buy or sell
     },

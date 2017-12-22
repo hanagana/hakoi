@@ -2,26 +2,39 @@
     angular.module('k')
         .controller('kController', kController);
 
-    kController.$inject = ['$scope'];
-    function kController($scope) {
+    kController.$inject = ['$scope', 'kService'];
+    function kController($scope, kService) {
         $scope.activeTab = 'open';
         var sampleObject = {
             symbol: '',
-            quantity: '',
-            priceBuy: '',
-            priceSold: '',
-            currentOrderPrice: '',
-            boughtDate: '',
-            soldDate: '',
-            type: '1',
-            isOpen: '1',
-            isDelete: '0'
+            quantity: 0,
+            priceBuy: 0,
+            priceSold: 0,
+            currentOrderPrice: 0,
+            type: 1,
+            isOpen: 1,
+            isDelete: 0
         };
         $scope.closeModal = closeModal;
         $scope.openModal = openModal;
         $scope.openCreate = openCreate;
         $scope.openUpdate = openUpdate;
+        $scope.save = save;
+        $scope.kois = [];
+        $scope.getAllKoi = getAllKoi;
 
+
+        function save() {
+            if($scope.mode == "create") {
+                doCreate();
+            }
+        }
+
+        function getAllKoi(query) {
+            kService.getAllKoi(query).then(function(data) {
+                $scope.kois = data;
+            })
+        }
 
         function openCreate() {
             openModal();
@@ -43,6 +56,17 @@
 
         function doUpdate() {
 
+        }
+
+        function doCreate() {
+            kService
+            .createKoi(angular.copy($scope.currentKoi))
+            .then(function(data) {
+                console.log(data);
+                closeModal();
+            }, function (err) {
+                console.log(err);
+            });
         }
 
         function deleteKoi() {

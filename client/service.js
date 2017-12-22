@@ -5,7 +5,8 @@
     kService.$inject = ['$q', '$http'];
 
     function kService($q, $http) {
-        var apiUrl = 'https://hakoi.herokuapp.com/api/koi';
+        // var apiUrl = 'https://hakoi.herokuapp.com/api/koi';
+        var apiUrl = 'http://localhost:5000/api/koi';
         return {
             createKoi: createKoi,
             getAllKoi: getAllKoi,
@@ -46,10 +47,10 @@
             return deferred.promise;
         }
 
-        function getAllKoi() {
+        function getAllKoi(query) {
             var deferred = $q.defer();
 
-            $http.get(apiUrl).then(function (res) {
+            $http.get(apiUrl + '?open=' + (query == 'open' ? 1 : 0)).then(function (res) {
                 deferred.resolve(res.data);
             }, function (err) {
                 deferred.reject(err.data);

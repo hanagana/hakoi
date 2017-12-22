@@ -92,7 +92,7 @@ div.k-footer {
 }
 
 div.k-footer div {
-    width: calc((100% - 50px) / 3);
+    width: calc((100% - 50px) / 2);
     float: left;
     text-align: center;
     padding-top: 13px;    
