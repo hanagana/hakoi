@@ -7,6 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HaKoi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body div {
+            padding: 10px;
+        }
+
+        .each div {
+            float: left;
+        }
+        
+        .each {
+            width: 100%;
+            position: relative;
+            float: left;
+            font-size: 13pt;
+        }
+
+        .each.up {
+            color: green;
+        }
+
+        .each.down {
+            color: purple;
+        }
+        
+    </style>
     <script>
         $(document).ready(function () {
 
@@ -25,7 +50,7 @@
                     getPrice(start);
                 }, 5000);
             }
-
+            //https://api.hitbtc.com/api/2/public/ticker/NGCUSD
             function getPrice(callback) {
                 $.getJSON({
                     url: "https://cors.io/?https://api.binance.com/api/v1/ticker/allPrices",
@@ -33,7 +58,6 @@
                     success: function (body) {
                         var list = sanitize(body);
                         var calculated = calculate(list);
-                        console.log(calculated);
 
                         //callback
                         if (callback) {
@@ -42,16 +66,29 @@
                     }
                 })
 
-                // $http.get('https://api.binance.com/api/v1/ticker/allPrices').then(function (body) {
-                //     var list = sanitize(body);
-                //     var calculated = calculate(list);
-                //     console.log(calculated);
+                $.getJSON({
+                    url: "https://cors.io/?https://api.hitbtc.com/api/2/public/ticker/NGCUSD",
+                    method: "GET",
+                    success: function (body) {
+                        $('.hitbtc').html('');
+                        var name = "NGCUSD";
+                        var buyAt = 1;
+                        var currentPrice = body.last;
+                        var rate = ((currentPrice - buyAt) * 100 / buyAt).toFixed(2);
 
-                //     //callback
-                //     if (callback) {
-                //         callback();
-                //     }
-                // });
+                        var html = `
+                            <div class="each ${rate < 0 ? 'down' : 'up'}">
+                                <div style="width: 100px; font-weight: bold">${ name }</div>
+                                <div style="width: 100px">At: ${ buyAt }</div>
+                                <div style="width: 180px">Current: ${ currentPrice }</div>
+                                <div style="width: 100px; font-weight: bold">Rate: ${ rate }</div>
+                            </div>
+                            <hr>
+                        `
+
+                        $('.hitbtc').append(html);
+                    }
+                })
             }
 
             function sanitize(list) {
@@ -66,16 +103,23 @@
             function calculate(listPrice) {
                 var result = '';
 
-                $('body').html('');                
+                $('.binance').html('');
                 for (p in orders) {
                     var name = p;
                     var buyAt = orders[p];
                     var currentPrice = listPrice[p];
                     var rate = ((listPrice[p] - orders[p]) * 100 / orders[p]).toFixed(2);
 
-                    var newText = name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate;
-                    result = result + newText;
-                    $('body').append("<p>" + newText + "</p>");
+                    var html = `
+                            <div class="each ${rate < 0 ? 'down' : 'up'}">
+                                <div style="width: 100px; font-weight: bold">${ name }</div>
+                                <div style="width: 100px">At: ${ buyAt }</div>
+                                <div style="width: 180px">Current: ${ currentPrice }</div>
+                                <div style="width: 100px; font-weight: bold">Rate: ${ rate }</div>
+                            </div>
+                            <hr>
+                        `
+                    $('.binance').append(html);
                 }
                 return result;
             }
@@ -84,7 +128,12 @@
 </head>
 
 <body>
-    
+    <div class="binance">
+
+    </div>
+    <div class="hitbtc">
+
+    </div>
 </body>
 
 </html>
