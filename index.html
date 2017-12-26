@@ -6,31 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HaKoi</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        (function () {
-            angular.module('k', [])
-                .controller('kController', kController);
+        $(document).ready(function () {
 
-            kController.$inject = ['$scope', '$http'];
-            function kController($scope, $http) {
-                var orders = {
-                    "YOYOETH": 0.00053000,
-                    "VIBETH": 0.00085000,
-                    "POWRETH": 0.00156000
-                }
+            var orders = {
+                "YOYOETH": 0.00053000,
+                "VIBETH": 0.00085000,
+                "POWRETH": 0.00156000
+            }
 
-                //start
-                getPrice(start);
+            //start
+            getPrice(start);
 
-                function start() {
-                    setTimeout(function () {
-                        getPrice(start);
-                    }, 5000);
-                }
+            function start() {
+                setTimeout(function () {
+                    getPrice(start);
+                }, 5000);
+            }
 
-                function getPrice() {
-                    $http.get('https://api.binance.com/api/v1/ticker/allPrices').then(function (body) {
+            function getPrice() {
+                $.ajax({
+                    url: "https://api.binance.com/api/v1/ticker/allPrices",
+                    method: "GET",
+                    success: function (body) {
                         var list = sanitize(body);
                         var calculated = calculate(list);
                         console.log(calculated);
@@ -39,33 +38,43 @@
                         if (callback) {
                             callback();
                         }
-                    });
-                }
-
-                function sanitize(list) {
-                    var list = JSON.parse(list);
-                    var result = {};
-                    for (i = 0; i < list.length; i++) {
-                        result[list[i].symbol] = parseFloat(list[i].price).toFixed(8);
                     }
-                    return result;
-                }
+                })
 
-                function calculate(listPrice) {
-                    var result = '';
-                    for (p in orders) {
-                        var name = p;
-                        var buyAt = orders[p];
-                        var currentPrice = listPrice[p];
-                        var rate = ((listPrice[p] - orders[p]) * 100 / orders[p]).toFixed(2);
+                // $http.get('https://api.binance.com/api/v1/ticker/allPrices').then(function (body) {
+                //     var list = sanitize(body);
+                //     var calculated = calculate(list);
+                //     console.log(calculated);
 
-                        result = result + name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate + '\n';
-                    }
-                    return result;
-                }
+                //     //callback
+                //     if (callback) {
+                //         callback();
+                //     }
+                // });
             }
 
-        })();
+            function sanitize(list) {
+                var list = JSON.parse(list);
+                var result = {};
+                for (i = 0; i < list.length; i++) {
+                    result[list[i].symbol] = parseFloat(list[i].price).toFixed(8);
+                }
+                return result;
+            }
+
+            function calculate(listPrice) {
+                var result = '';
+                for (p in orders) {
+                    var name = p;
+                    var buyAt = orders[p];
+                    var currentPrice = listPrice[p];
+                    var rate = ((listPrice[p] - orders[p]) * 100 / orders[p]).toFixed(2);
+
+                    result = result + name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate + '\n';
+                }
+                return result;
+            }
+        })
     </script>
 </head>
 
