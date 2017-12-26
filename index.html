@@ -10,10 +10,11 @@
     <script>
         $(document).ready(function () {
 
-            var orders = {
+            window.orders = {
                 "YOYOETH": 0.00053000,
                 "VIBETH": 0.00085000,
-                "POWRETH": 0.00156000
+                "POWRETH": 0.00156000,
+                "ETHUSDT": 715
             }
 
             //start
@@ -64,13 +65,17 @@
 
             function calculate(listPrice) {
                 var result = '';
+
+                $('body').html('');                
                 for (p in orders) {
                     var name = p;
                     var buyAt = orders[p];
                     var currentPrice = listPrice[p];
                     var rate = ((listPrice[p] - orders[p]) * 100 / orders[p]).toFixed(2);
 
-                    result = result + name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate + '\n';
+                    var newText = name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate;
+                    result = result + newText;
+                    $('body').append("<p>" + newText + "</p>");
                 }
                 return result;
             }
@@ -78,8 +83,8 @@
     </script>
 </head>
 
-<body ng-app="k" ng-controller="kController">
-
+<body>
+    
 </body>
 
 </html>
