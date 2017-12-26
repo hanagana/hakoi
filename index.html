@@ -26,10 +26,9 @@
             }
 
             function getPrice() {
-                $.ajax({
-                    url: "https://api.binance.com/api/v1/ticker/allPrices",
+                $.getJSON({
+                    url: "https://cors.io/?https://api.binance.com/api/v1/ticker/allPrices",
                     method: "GET",
-                    dataType: 'jsonp',
                     success: function (body) {
                         var list = sanitize(body);
                         var calculated = calculate(list);
