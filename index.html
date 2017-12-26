@@ -54,7 +54,7 @@
             }
 
             function sanitize(list) {
-                var list = JSON.parse(list);
+                // var list = JSON.parse(list);
                 var result = {};
                 for (i = 0; i < list.length; i++) {
                     result[list[i].symbol] = parseFloat(list[i].price).toFixed(8);
