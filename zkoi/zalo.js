@@ -1,31 +1,22 @@
 var ZaloSocial = require('zalo-sdk').ZaloSocial;
-var ha = "7024743894065766160";
+var ha = "7527184424076269072";
 var na = "4355607641836422423";
-var codeHa = 'me8AJ8nOeNd1ZWXBYbMbUC6C14Q4JUXtizeJ69zHn2-BqnjPfaQkC9xJPcIs2CicdA9cH9fqaoEbtNvEdcAtVOwrQHJ1C84Z-QvJJSqNZMRpooKIssZH8Upt9aBvLVKtiuqdGPKts2Ingn1p_06nDj6-R0Vz1unDmgrW3lKqitpBX6Kpq5-uLDNSOHlvVBKboDORJ81rwIkEm1bijdRJMfFoScggNuTTj80cCx8uyb28i2GoXXVVV9UF7qAWByaFX9KSGAXDyN2jwX0lfsIzH7plc0QDGwP_';
-var codeNa = 'mCzCDvod5KR3maqubQSKJSd8JZ-IkdO1b8Hs0C-VVJN4YNG8u_X-2DVd87oAq2WMikW24fk39m33w3Wzn8OaIlwo83Ideo16bfSAJu2P7rUMZ41Ho80UVFIeBMlpe2SSy8qcCCoM7K75lq1axhPSTiQm06V5sJfQXjTxQwJvI6Mlb4XAXuGHNuxfBM2ZxpbIZzyVORZ08NBZ-XXVkCqzT9N2F7JAypPzqU4eSikC3b7ie5PHviqBHilR95ATuGDGo_yCMi3oANgPtXDeXkSTJKTkN6n7dRqJG0';
+var code = 'uZI-NPkVFsRXERzIafy-RUipl5MLWZWmbt7LMuoqKcMNI98ug-zBRueOhrQCm6aFyM_kSVwO74NgGz0QpB8rPEvuy3t_lp1zrXdAGExo4ZIJ7EG9kle3HjmVsYBOoojXwMF82k252dIJVEqMjBCrShuUnpInn4HffI603Th7Sc7Z7gS4mEX-IiG7_NVwwICTzmxK8kNU0dhe2l96nSrq5Bmyjag5zL0AWH22Vv3hJ2YX5izlZUyM8O0XzbYFyd8me3sZLzBfBZZ37writS4l4JHrIv-q3Pg5EM0';
 
-var zsConfigNa = {
+var zsConfig = {
     appId: '3024561949895223655',
     redirectUri: 'https://developers.zalo.me/',
     secretkey: 'JFUUR3HX3nknV27KIBEc'
 };
+var ZSClient = new ZaloSocial(zsConfig);
 
-var zsConfigHa = {
-    appId: '4525331914745576989',
-    redirectUri: 'https://developers.zalo.me/',
-    secretkey: 'XwJGh3nIA1qZJrWR6KMM'
-};
-var ZSClient = new ZaloSocial(zsConfigNa);
-
-ZSClient.setAccessToken(codeNa);
+ZSClient.setAccessToken(code);
 
 function sendMessage(message) {
-    ZSClient.api('me/message', 'POST', { to: '7024743894065766160', message: message, link: 'https://developers.zalo.me/' }, function (response) {
+    ZSClient.api('me/message', 'POST', { to: '7527184424076269072', message: message }, function (response) {
         console.log(response);
     });
 }
-
-sendMessage("hihi")
 
 // ZSClient.api('me', 'GET', { fields: 'id, name, birthday, gender, picture' }, function(response) {
 //     console.log(response);

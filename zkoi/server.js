@@ -20,6 +20,12 @@ server.listen(port, (err) => {
         "POWRETH": 0.00156000
     }
 
+    var oldRate = {
+        "YOYOETH": -100,
+        "VIBETH": -100,
+        "POWRETH": -100
+    }
+
     //start
     getPrice(start);
 
@@ -33,7 +39,7 @@ server.listen(port, (err) => {
         request('https://api.binance.com/api/v1/ticker/allPrices', function (error, response, body) {
             var list = sanitize(body);
             var calculated = calculate(list);
-            console.log(calculated);
+            // console.log(calculated);
 
             //callback
             if (callback) {
@@ -59,7 +65,14 @@ server.listen(port, (err) => {
             var currentPrice = listPrice[p];
             var rate = ((listPrice[p] - orders[p]) * 100 / orders[p]).toFixed(2);
 
-            result = result + name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate + '\n';
+            var newText = name + ' - At: ' + buyAt + ' | Current: ' + currentPrice + ' | Rate: ' + rate + '\n';
+            if ((rate >= -5 && rate < 0) || (rate < 5 && rate >= 0)) {
+                if ((rate > oldRate[name]) || (rate < oldRate[name] && oldRate[name] > 0) ) {
+                    zalo.sendMessage(newText);
+                }
+                oldRate[name] = rate;
+            }
+            result = result + newText;
         }
         return result;
     }
