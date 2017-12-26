@@ -25,7 +25,7 @@
                 }, 5000);
             }
 
-            function getPrice() {
+            function getPrice(callback) {
                 $.getJSON({
                     url: "https://cors.io/?https://api.binance.com/api/v1/ticker/allPrices",
                     method: "GET",
